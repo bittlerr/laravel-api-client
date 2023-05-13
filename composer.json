@@ -19,7 +19,7 @@
         "firebase/php-jwt": "^6.0",
         "guzzlehttp/guzzle": "~7.0|~6.0|~5.0|~4.0",
         "illuminate/support": "^7.0|^8.0|^9.0|^10.0",
-        "macsidigital/laravel-oauth2-client": "^1.2|^2.0",
+        "macsidigital/laravel-oauth2-client": "dev-fix-integration-model",
         "nesbot/carbon": "^1.26.3 || ^2.0"
     },
     "require-dev": {
@@ -44,14 +44,18 @@
     "config": {
         "sort-packages": true
     },
+    "repositories": [
+        {
+            "url": "https://github.com/bittlerr/laravel-oauth2-client.git",
+            "type": "git"
+        }
+    ],
     "extra": {
         "laravel": {
             "providers": [
                 "MacsiDigital\\API\\Providers\\APIServiceProvider"
             ],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     }
 }
