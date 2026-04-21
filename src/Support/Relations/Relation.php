@@ -13,6 +13,7 @@ abstract class Relation implements RelationContract
     protected $related;
     protected $relatedClass;
     protected $name;
+    protected $field;
     protected $relation;
     protected $updateFields;
 
