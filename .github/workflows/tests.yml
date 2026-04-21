@@ -4,44 +4,53 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        php: [7.3, 7.4, 8.0]
-        laravel: [7.*, 8.*]
-        dependency-version: [prefer-lowest, prefer-stable]
+        php: ['8.1', '8.2', '8.3', '8.4']
+        laravel: ['9.*', '10.*', '11.*']
+        exclude:
+          - { php: '8.1', laravel: '11.*' }
+          - { php: '8.3', laravel: '9.*' }
+          - { php: '8.4', laravel: '9.*' }
         include:
-          - laravel: 8.*
-            testbench: 6.*
-          - laravel: 7.*
-            testbench: 5.*
+          - laravel: '9.*'
+            testbench: '^7.0'
+            phpunit: '^9.5'
+          - laravel: '10.*'
+            testbench: '^8.0'
+            phpunit: '^10.0'
+          - laravel: '11.*'
+            testbench: '^9.0'
+            phpunit: '^10.5'
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          extensions: dom, curl, libxml, mbstring, zip, bcmath
           coverage: none
-          ini-values: 'extension=php_fileinfo.dll'
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ runner.os }}-php${{ matrix.php }}-laravel${{ matrix.laravel }}-${{ hashFiles('composer.json') }}
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+          composer require --dev --no-interaction --no-update \
+            "laravel/framework:${{ matrix.laravel }}" \
+            "orchestra/testbench:${{ matrix.testbench }}" \
+            "phpunit/phpunit:${{ matrix.phpunit }}"
+          composer update --prefer-stable --prefer-dist --no-interaction
 
-      - name: Execute tests
+      - name: Run tests
         run: vendor/bin/phpunit

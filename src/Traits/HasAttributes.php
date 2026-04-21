@@ -11,6 +11,8 @@ trait HasAttributes
 {
     use LaravelHasAttributes;
 
+    protected $dates = [];
+
     protected $updateOnlyDirty = true;
 
     public function hasKey()
