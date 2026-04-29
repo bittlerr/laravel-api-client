@@ -15,16 +15,16 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1|^8.2|^8.3|^8.4",
+        "php": "^8.3 || ^8.4",
         "firebase/php-jwt": "^6.10.2 || ^7.0",
         "guzzlehttp/guzzle": "~7.0",
-        "illuminate/support": "^9.0|^10.0|^11.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
         "macsidigital/laravel-oauth2-client": "dev-fix-integration-model",
         "nesbot/carbon": "^2.0 || ^3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0|^8.0|^9.0",
-        "phpunit/phpunit": "^9.0|^10.0|^11.0"
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0 || ^13.0"
     },
     "autoload": {
         "psr-4": {
@@ -40,9 +40,9 @@
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
         "test:container": "scripts/test-in-container.sh",
-        "test:l9": "scripts/test-in-container.sh 9",
-        "test:l10": "scripts/test-in-container.sh 10",
         "test:l11": "scripts/test-in-container.sh 11",
+        "test:l12": "scripts/test-in-container.sh 12",
+        "test:l13": "scripts/test-in-container.sh 13",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {

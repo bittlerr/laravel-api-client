@@ -21,10 +21,10 @@ if [[ $# -gt 0 ]]; then shift; fi
 COMPOSER_IMAGE="${COMPOSER_IMAGE:-composer:2.8}"
 
 case "$LARAVEL" in
-    9)  TESTBENCH="^7.0"; PHPUNIT="^9.5" ;;
-    10) TESTBENCH="^8.0"; PHPUNIT="^10.0" ;;
-    11) TESTBENCH="^9.0"; PHPUNIT="^10.5" ;;
-    *)  echo "Unsupported Laravel major: $LARAVEL (supported: 9, 10, 11)" >&2; exit 2 ;;
+    11) TESTBENCH="^9.0";  PHPUNIT="^11.5" ;;
+    12) TESTBENCH="^10.0"; PHPUNIT="^11.5" ;;
+    13) TESTBENCH="^11.0"; PHPUNIT="^11.5" ;;
+    *)  echo "Unsupported Laravel major: $LARAVEL (supported: 11, 12, 13)" >&2; exit 2 ;;
 esac
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
